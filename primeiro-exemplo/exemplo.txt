@@ -1,0 +1,19 @@
+Objetivo:
+
+Criar uma api restFull para controle de produtos
+
+//TODO: Modelo
+Modelo:
+    Produto: id, nom, quantidade, valor, observacao
+
+//TODO: Repository
+Repositorio de produto:
+    obterTodos, obterPorId, adicionar, atualizar, deletar. 
+
+//TODO: Service
+Serviço de produto:
+obterTodos, obterPorId, adicionar, atualizar, deletar. 
+
+//TODO: Controller
+Endpoint:
+obterTodos, obterPorId, adicionar, atualizar, deletar. 
