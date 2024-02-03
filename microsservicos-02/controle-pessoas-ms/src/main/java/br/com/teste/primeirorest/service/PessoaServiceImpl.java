@@ -8,7 +8,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.teste.primeirorest.compartilhado.AnimalDto;
 import br.com.teste.primeirorest.compartilhado.PessoaDto;
+import br.com.teste.primeirorest.http.AnimaisFeignClient;
 import br.com.teste.primeirorest.model.Pessoa;
 import br.com.teste.primeirorest.repository.PessoaRepository;
 
@@ -16,6 +18,9 @@ import br.com.teste.primeirorest.repository.PessoaRepository;
 public class PessoaServiceImpl implements PessoaService {
     @Autowired
     private PessoaRepository repo;
+    
+    @Autowired
+    private AnimaisFeignClient animaisMsClient;
 
     @Override
     public PessoaDto criarPessoa(PessoaDto pessoa) {
@@ -33,12 +38,17 @@ public class PessoaServiceImpl implements PessoaService {
 
     @SuppressWarnings("null")
     @Override
-    public Optional<PessoaDto> obterPorId(String id) {
+    public Optional<PessoaDto> obterPorId(Integer id) {
        Optional<Pessoa> pessoa = repo.findById(id);
 
        if(pessoa.isPresent()) {
 
             PessoaDto dto = new ModelMapper().map(pessoa.get(), PessoaDto.class);
+
+            //Aqui pegar os animais da pessoa pelo id
+            List<AnimalDto> animais = animaisMsClient.obterAnimais(id);
+            //Aqui adiciono a lista de animais na pessoaDto
+            dto.setAnimais(animais);
 
             return Optional.of(dto);
        }
@@ -48,12 +58,12 @@ public class PessoaServiceImpl implements PessoaService {
 
     @SuppressWarnings("null")
     @Override
-    public void removerPessoa(String id) {
+    public void removerPessoa(Integer id) {
         repo.deleteById(id);
     }
 
     @Override
-    public PessoaDto atualizarPessoa(String id, PessoaDto pessoa) {
+    public PessoaDto atualizarPessoa(Integer id, PessoaDto pessoa) {
         pessoa.setId(id);
         return salvarPessoa(pessoa);
     }

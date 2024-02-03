@@ -1,16 +1,17 @@
 package br.com.teste.primeirorest.view.model;
 
 public class PessoaModeloResponse {
-    private String id;
-    private String nome;
-    private String sobrenome;
+    protected Integer id;
+    protected String nome;
+    protected String sobrenome;
+
 
     //#region Get / Set
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
