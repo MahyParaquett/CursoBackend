@@ -1,4 +1,4 @@
-package com.autenticacaojwt.gestaodeprojetos.service;
+package com.autenticacaojwt.gestaodeprojetos.security;
 
 import java.util.Date;
 import java.util.Optional;
