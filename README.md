@@ -11,7 +11,7 @@
         <li><code>dto</code>: Pasta Java de transferencia de dados menores.</li>
         <li><code>security</code>: Pasta Java responsavel por implementar a segurança do código.</li>
         <li><code>Microsserviços</code>: Este arquivo é o workspace responsável por todos os aquivos que compõe a arquitetura do microsserviço.</li>
-        <li><code>Testes</code>: </li>
+        <li><code>Testes</code>: Pasta respondável pelos testes de software, como testes de carga, testes unitários, etc. Testes unitários com JUnit e Mockito.</li>
         <li><code>README.md</code>: Este arquivo, fornecendo informações sobre o projeto.</li>
     </ul>
   </br>
