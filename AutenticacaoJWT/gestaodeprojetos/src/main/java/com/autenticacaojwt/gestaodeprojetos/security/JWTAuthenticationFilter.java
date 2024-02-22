@@ -1,7 +1,6 @@
 package com.autenticacaojwt.gestaodeprojetos.security;
 
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
