@@ -53,7 +53,7 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable()) //desabilita o csrf
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //define a politica de sessao
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/auth/**", "/h2-console/**", "/roles/**", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll() //define as rotas publicas/abertas
+                    .requestMatchers( "/api/usuarios/login", "/api/usuarios").permitAll() //define as rotas publicas/abertas
                     .anyRequest().permitAll()); //demais rotas, nao configuradas acima, so poderao ser acessadas mediante autenticacao
 				
 		
