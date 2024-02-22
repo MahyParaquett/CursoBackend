@@ -41,26 +41,26 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             //Pego o id do usuário que esta dentro do token.
             Optional<Long> id = jwtService.obterIdDoUsuario(token);
 
-            //Se não acho o id , é porque o usuário mando o token errado
-            if(!id.isPresent()){
-                throw new InputMismatchException("Token inválido");
+            if(id.isPresent()){
+        
+                //Pego o usuario dono do token pelo seu Id
+                UserDetails usuario = customUserDetailsService.obterUsuarioPorId(id.get());
+
+                //Nesse ponto verificamos se o usuário esta autenticado ou não.
+                //Aqui poderia validar as permissões.
+                UsernamePasswordAuthenticationToken autenticacao =
+                new UsernamePasswordAuthenticationToken(usuario, null, Collections.emptyList());
+
+                //Mudando a autenticação para a propria requisição, deixando a autenticação mais atualizada
+                autenticacao.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                //Repasso a autenticação para o contexto do security
+                //O Spring assume a partir daqui
+                SecurityContextHolder.getContext().setAuthentication(autenticacao);
             }
 
-            //Pego o usuario dono do token pelo seu Id
-            UserDetails usuario = customUserDetailsService.obterUsuarioPorId(id.get());
-
-            //Nesse ponto verificamos se o usuário esta autenticado ou não.
-            //Aqui poderia validar as permissões.
-            UsernamePasswordAuthenticationToken autenticacao =
-            new UsernamePasswordAuthenticationToken(usuario, null, Collections.emptyList());
-
-            //Mudando a autenticação para a propria requisição, deixando a autenticação mais atualizada
-            autenticacao.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-            //Repasso a autenticação para o contexto do security
-            //O Spring assume a partir daqui
-            SecurityContextHolder.getContext().setAuthentication(autenticacao);
-
+            //Método padrão para filtrar as regras do usuário
+            filterChain.doFilter(request, response);
         }
     
     private String obterToken(HttpServletRequest request){
