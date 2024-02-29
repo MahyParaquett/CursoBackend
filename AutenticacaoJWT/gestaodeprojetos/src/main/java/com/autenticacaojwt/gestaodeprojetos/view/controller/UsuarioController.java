@@ -2,7 +2,9 @@ package com.autenticacaojwt.gestaodeprojetos.view.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.autenticacaojwt.gestaodeprojetos.model.MensagemEmail;
 import com.autenticacaojwt.gestaodeprojetos.model.Usuario;
+import com.autenticacaojwt.gestaodeprojetos.service.EmailService;
 import com.autenticacaojwt.gestaodeprojetos.service.UsuarioService;
 import com.autenticacaojwt.gestaodeprojetos.view.model.usuario.LoginRequest;
 import com.autenticacaojwt.gestaodeprojetos.view.model.usuario.LoginResponse;
@@ -29,6 +31,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService servicoUsuario;
 
+    @Autowired
+    private EmailService servicoEmail;
+
     @GetMapping 
     public List<Usuario> obterTodos(){
         return servicoUsuario.obterTodos();
@@ -36,7 +41,7 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     public Optional<Usuario> obter(@PathVariable("id") Long id){
-        return servicoUsuario.obterPorId(id);
+       return servicoUsuario.obterPorId(id);
     }
 
     @PostMapping
@@ -47,5 +52,16 @@ public class UsuarioController {
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request){
         return servicoUsuario.logar(request.getEmail(), request.getSenha());
+    }
+
+    @PostMapping("/email")
+    public String enviarEmail(@RequestBody MensagemEmail email){
+        try {
+            servicoEmail.enviar(email);
+            return "Deu certo";
+        } catch (Exception e) {
+           e.printStackTrace();
+           return "Deu errado";
+        }
     }
 }
